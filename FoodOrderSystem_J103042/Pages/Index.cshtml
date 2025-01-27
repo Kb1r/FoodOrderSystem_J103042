@@ -1,0 +1,54 @@
+﻿@page
+@model IndexModel
+
+<div class="container text-center mt-5">
+    <div class="jumbotron bg-light">
+        <h1 class="display-4">Welcome to TastyBites</h1>
+        <p class="lead">Delicious food delivered right to your doorstep</p>
+    </div>
+
+    <div class="featured-menu my-5">
+        <h2 class="mb-4">Featured Myanmar Specialties</h2>
+
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <img src= "~/image/Mohinga.jpg" class="card-img-top" alt="Mohinga - Myanmar Fish Soup">
+                    <div class="card-body">
+                        <h5 class="card-title">Mohinga</h5>
+                        <p class="card-text">Myanmar's national dish - hearty lemongrass rice noodle soup with crispy fritters and tender fish cake</p>
+                        <p class="card-text"><strong>$13.99</strong></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <img src="~/image/Lahpet Thoke.jpg" class="card-img-top" alt="Laphet Thoke - Tea Leaf Salad">
+                    <div class="card-body">
+                        <h5 class="card-title">Laphet Thoke</h5>
+                        <p class="card-text">Traditional tea leaf salad with crunchy peanuts, tomatoes, dried shrimp, and crispy beans</p>
+                        <p class="card-text"><strong>$11.99</strong></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <img src="~/image/Ohn No Khao Swè.jpg" class="card-img-top" alt="Ohn No Khao Swè - Coconut Chicken Noodles">
+                    <div class="card-body">
+                        <h5 class="card-title">Ohn No Khao Swè</h5>
+                        <p class="card-text">Coconut cream curry soup with egg noodles, chicken, and aromatic spices</p>
+                        <p class="card-text"><strong>$14.99</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-5">
+        <a asp-page="/Menu" class="btn btn-primary btn-lg px-4 view-menu-btn">
+            View Full Menu
+        </a>
+    </div>
+</div>
