@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace FoodOrderSystem.Models
+namespace FoodOrderSystem_J103042.Models
 {
     public class FoodItem
     {
@@ -11,6 +11,7 @@ namespace FoodOrderSystem.Models
         [Required]
         [StringLength(30)]
         public string Item_Name { get; set; }
+
         [StringLength(255)]
         public string Item_Desc { get; set; }
 

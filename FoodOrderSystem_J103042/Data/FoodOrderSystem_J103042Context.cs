@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using FoodOrderSystem.Models;
+using FoodOrderSystem_J103042.Models;
 
 namespace FoodOrderSystem_J103042.Data
 {
@@ -14,7 +14,7 @@ namespace FoodOrderSystem_J103042.Data
         {
         }
 
-        public DbSet<FoodOrderSystem.Models.FoodItem> FoodItems { get; set; } = default!;
+        public DbSet<FoodOrderSystem_J103042.Models.FoodItem> FoodItems { get; set; } = default!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

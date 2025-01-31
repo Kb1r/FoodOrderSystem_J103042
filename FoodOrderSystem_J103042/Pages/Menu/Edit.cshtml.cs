@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using FoodOrderSystem.Models;
+using FoodOrderSystem_J103042.Models;
 using FoodOrderSystem_J103042.Data;
 
 namespace FoodOrderSystem_J103042.Pages.Menu
