@@ -1,0 +1,63 @@
+﻿@page
+@model FoodOrderSystem_J103042.Pages.AdminMenu.EditModel
+
+@{
+    ViewData["Title"] = "Edit Food Item";
+}
+
+<h1>Edit Food Item</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="FoodItem.ID" />
+
+            <div class="form-group">
+                <label asp-for="FoodItem.Item_Name" class="control-label"></label>
+                <input asp-for="FoodItem.Item_Name" class="form-control" required />
+                <span asp-validation-for="FoodItem.Item_Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="FoodItem.Item_Desc" class="control-label"></label>
+                <textarea asp-for="FoodItem.Item_Desc" class="form-control"></textarea>
+                <span asp-validation-for="FoodItem.Item_Desc" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="FoodItem.Price" class="control-label"></label>
+                <input asp-for="FoodItem.Price" class="form-control" required />
+                <span asp-validation-for="FoodItem.Price" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label>Current Image</label><br />
+                @if (!string.IsNullOrEmpty(Model.FoodItem.ImageUrl))
+                {
+                    <img src="~/images/@Model.FoodItem.ImageUrl" alt="@Model.FoodItem.Item_Name" width="100" />
+                }
+                else
+                {
+                    <p>No image uploaded</p>
+                }
+            </div>
+
+            <div class="form-group">
+                <label>Upload New Image</label>
+                <input type="file" asp-for="UploadImage" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Save Changes" class="btn btn-primary" />
+                <a asp-page="./Index" class="btn btn-secondary">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
