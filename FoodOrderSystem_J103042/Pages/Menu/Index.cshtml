@@ -2,33 +2,19 @@
 @model FoodOrderSystem_J103042.Pages.Menu.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Menu";
 }
 
-<h1>Index</h1>
+<h2 class="text-center">Myanmar Specialties</h2>
 
-<p>
-    <a asp-page="Create">Create New</a>
-</p>
-<table class="table">
+
+<table class="table table-bordered">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FoodItems[0].Item_Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FoodItems[0].Item_Desc)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FoodItems[0].Available)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FoodItems[0].Vegetarian)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FoodItems[0].Price)
-            </th>
-            <th></th>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
         </tr>
     </thead>
     <tbody>
@@ -36,25 +22,19 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Item_Name)
+                    @if (!string.IsNullOrEmpty(item.ImageUrl))
+                    {
+                        <img src="~/images/@item.ImageUrl" alt="@item.Item_Name" width="80" />
+                    }
+                    else
+                    {
+                        <span>No Image</span>
+                    }
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Item_Desc)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Available)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Vegetarian)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
-                <td>
-                    <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
-                    <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
-                </td>
+                <td>@item.Item_Name</td>
+                <td>@item.Item_Desc</td>
+                <td>£@item.Price</td>
+               
             </tr>
         }
     </tbody>

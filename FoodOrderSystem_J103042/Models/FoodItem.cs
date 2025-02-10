@@ -9,10 +9,10 @@ namespace FoodOrderSystem_J103042.Models
         public int ID { get; set; }
 
         [Required]
-        [StringLength(30)]
+        [StringLength(50)]
         public string Item_Name { get; set; }
 
-        [StringLength(255)]
+        [StringLength(500)]
         public string Item_Desc { get; set; }
 
         public bool? Available { get; set; }
