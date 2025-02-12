@@ -1,64 +1,98 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using FoodOrderSystem_J103042.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ✅ Add Database Context
+// Configure the database connection
 builder.Services.AddDbContext<FoodOrderSystem_J103042Context>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("FoodOrderSystem_J103042Context")
-    ?? throw new InvalidOperationException("Connection string 'FoodOrderSystem_J103042Context' not found.")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("FoodOrderSystem_J103042Context")));
 
-// ✅ Add Identity Framework for Authentication
-builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+// Add Identity services
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 {
-    options.SignIn.RequireConfirmedAccount = false; // Set to true if email confirmation is needed
+    options.SignIn.RequireConfirmedAccount = false; 
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireUppercase = true;
+    options.Password.RequireNonAlphanumeric = true;
+    options.Password.RequiredLength = 8;
 })
-.AddEntityFrameworkStores<FoodOrderSystem_J103042Context>();
-
-// ✅ Add Razor Pages with Authentication Support
+    .AddEntityFrameworkStores<FoodOrderSystem_J103042Context>();
+// Add Razor Pages
 builder.Services.AddRazorPages();
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 var app = builder.Build();
+
 
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
-else
-{
-    app.UseDeveloperExceptionPage();
-    app.UseMigrationsEndPoint();
-}
-
-// ✅ Ensure Database Schema is Created & Seed Data
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-    var context = services.GetRequiredService<FoodOrderSystem_J103042Context>();
-    var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
-    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-
-    context.Database.EnsureCreated();
-    DbInitializer.Initialize(context); // Initialize DB with default data if necessary
-
-    // Seed Admin User (Optional)
-    var adminUser = new IdentityUser { UserName = "admin@site.com", Email = "admin@site.com", EmailConfirmed = true };
-    if (await userManager.FindByEmailAsync(adminUser.Email) == null)
-    {
-        await userManager.CreateAsync(adminUser, "Admin123!");
-        await userManager.AddToRoleAsync(adminUser, "Admin");
-    }
-}
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
-app.UseAuthentication(); // ✅ Enable Authentication Middleware
+
+// Enable authentication and authorization
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
+
+// Seed roles and admin user
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<FoodOrderSystem_J103042Context>();
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+
+
+    try
+    {
+        // Ensure the database is created
+        context.Database.EnsureCreated();
+
+        // Seed roles and admin user
+        await SeedRolesAndAdminUser(roleManager, userManager);
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred creating the database or seeding data.");
+    }
+}
+
+// Run the app
 app.Run();
+
+// Seed roles and admin user
+async Task SeedRolesAndAdminUser(RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager)
+{
+    // Create Admin role if it doesn't exist
+    if (!await roleManager.RoleExistsAsync("Admin"))
+    {
+        await roleManager.CreateAsync(new IdentityRole("Admin"));
+    }
+
+    // Create a default admin user
+    var adminUser = await userManager.FindByEmailAsync("admin@example.com");
+    if (adminUser == null)
+    {
+        adminUser = new IdentityUser
+        {
+            UserName = "admin@example.com",
+            Email = "admin@example.com",
+            EmailConfirmed = true // Set to true if email confirmation is not required
+        };
+
+        var result = await userManager.CreateAsync(adminUser, "Admin@123"); // Set a strong password
+        if (result.Succeeded)
+        {
+            await userManager.AddToRoleAsync(adminUser, "Admin");
+        }
+    }
+}
