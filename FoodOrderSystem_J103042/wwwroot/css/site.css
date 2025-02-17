@@ -1,4 +1,4 @@
-style >
+﻿style >
 .view-menu-btn {
     transition: all 0.3s ease;
 }
@@ -58,5 +58,138 @@ style >
             background-color: gold;
             color: white;
     }
+/* ============================= */
+/* 📌 History Page Styling */
+/* ============================= */
+
+
+.history-container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 40px 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+    .history-container:hover {
+        transform: scale(1.01);
+    }
+
+
+.history-header {
+    font-size: 2.5rem;
+    text-align: center;
+    color: #b76e79;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+/* History Grid */
+.history-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+/* History Cards */
+.history-card {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out;
+    text-align: center;
+}
+
+    .history-card:hover {
+        transform: translateY(-5px);
+    }
+
+/* Image Styling */
+.history-img {
+    width: 100%;
+    height: 250px; /* Adjust based on your images */
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease-in-out;
+}
+
+    .history-img:hover {
+        transform: scale(1.05);
+    }
+
+/* Caption */
+.history-caption {
+    font-size: 1rem;
+    color: #555;
+    font-style: italic;
+    margin-top: 10px;
+}
+
+/* Historical Timeline Section */
+.timeline {
+    position: relative;
+    max-width: 1000px;
+    margin: auto;
+    padding: 20px 0;
+}
+
+.timeline-item {
+    position: relative;
+    padding: 20px;
+    border-left: 4px solid #b76e79;
+    margin-bottom: 20px;
+}
+
+    .timeline-item h4 {
+        font-size: 1.8rem;
+        color: #b76e79;
+        margin-bottom: 10px;
+    }
+
+/* Historical Kingdoms */
+.kingdoms-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-around;
+    margin-top: 30px;
+}
+
+.kingdom-box {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+    flex: 1 1 300px;
+    min-width: 300px;
+}
+
+    .kingdom-box:hover {
+        transform: scale(1.05);
+    }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .history-header {
+        font-size: 2rem;
+    }
+
+    .history-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .history-img {
+        height: 200px;
+    }
+}
+
 
 </style >
