@@ -8,9 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\image\Lahpet Thoke.jpg" />
-    <None Include="wwwroot\image\Mohinga.jpg" />
-    <None Include="wwwroot\image\Ohn No Khao Swè.jpg" />
+    <None Include="wwwroot\images\Lahpet Thoke.jpg" />
+    <None Include="wwwroot\images\Mohinga.jpg" />
+    <None Include="wwwroot\images\Ohn No Khao Swè.jpg" />
   </ItemGroup>
 
   <ItemGroup>

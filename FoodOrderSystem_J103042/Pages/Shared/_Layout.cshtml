@@ -9,12 +9,6 @@
     <link rel="stylesheet" href="~/FoodOrderSystem_J103042.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <div>
-        @RenderBody()
-    </div>
-
-    @await RenderSectionAsync("Scripts", required: false)
-</body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
@@ -44,11 +38,12 @@
                             <a class="nav-link text-dark" asp-page="/Checkout">Checkout</a>
                         </li>
                     </ul>
-                    <partial name = "_LoginPartial" />
+                    <partial name="_LoginPartial" />
                 </div>
             </div>
         </nav>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -60,11 +55,10 @@
             &copy; 2025 - TastyBites - <a asp-page="/Privacy">Privacy</a>
         </div>
     </footer>
-    <body>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
