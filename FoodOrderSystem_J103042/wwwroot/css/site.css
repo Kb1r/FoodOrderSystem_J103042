@@ -1,12 +1,129 @@
-﻿style >
+﻿/* ============================= */
+/* 🔵 GENERAL STYLES */
+/* ============================= */
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f7fc;
+    color: #333;
+}
+
+/* Button Styling */
+button, .btn {
+    transition: all 0.3s ease;
+    border-radius: 8px;
+}
+
+    button:hover, .btn:hover {
+        transform: scale(1.05);
+    }
+
+/* ============================= */
+/* 📌 AUTH PAGES (LOGIN & LOGOUT) */
+/* ============================= */
+
+.auth-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #f4f7fc;
+}
+
+/* Centered Form Container */
+.auth-container {
+    max-width: 400px;
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+    /* Page Title */
+    .auth-container h1 {
+        font-size: 22px;
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 20px;
+        color: #2c3e50;
+    }
+
+    /* Input Fields */
+    .auth-container .form-floating input {
+        border-radius: 8px;
+        border: 1px solid #d1d3e2;
+        padding: 12px;
+        font-size: 16px;
+        transition: all 0.3s ease;
+    }
+
+        .auth-container .form-floating input:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+        }
+
+    /* Buttons */
+    .auth-container button {
+        background: #3498db;
+        color: #fff;
+        padding: 12px;
+        font-size: 16px;
+        font-weight: 500;
+        transition: all 0.3s ease-in-out;
+        border: none;
+        width: 100%;
+    }
+
+        .auth-container button:hover {
+            background: #2980b9;
+        }
+
+    /* Links */
+    .auth-container a {
+        display: block;
+        text-align: center;
+        font-size: 14px;
+        color: #3498db;
+        margin-top: 10px;
+        transition: all 0.3s;
+    }
+
+        .auth-container a:hover {
+            text-decoration: underline;
+            color: #2980b9;
+        }
+
+/* Logout Page Message */
+.logout-message {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+/* Mobile Friendly */
+@media (max-width: 768px) {
+    .auth-container {
+        width: 90%;
+    }
+}
+
+/* ============================= */
+/* 📌 BUTTON HOVER EFFECTS */
+/* ============================= */
+
 .view-menu-btn {
     transition: all 0.3s ease;
 }
 
-.view-menu-btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
+    .view-menu-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+/* ============================= */
+/* 📌 CARD COMPONENTS */
+/* ============================= */
 
 .card {
     transition: all 0.3s ease;
@@ -25,16 +142,10 @@
     border-top-right-radius: 10px;
 }
 
-@media (max-width: 768px) {
-    .display-4 {
-        font-size: 2.5rem;
-    }
+/* ============================= */
+/* 📌 FLEX CONTAINER (For Menus, Grid Items) */
+/* ============================= */
 
-    .lead {
-        font-size: 1.1rem;
-    }
-}
-/* Flex container styling */
 .flex-container {
     display: flex;
     flex-direction: row;
@@ -54,14 +165,14 @@
         transition-duration: 1.4s;
     }
 
-    .flex-container > div:hover {
+        .flex-container > div:hover {
             background-color: gold;
             color: white;
-    }
-/* ============================= */
-/* 📌 History Page Styling */
-/* ============================= */
+        }
 
+/* ============================= */
+/* 📌 HISTORY PAGE STYLES */
+/* ============================= */
 
 .history-container {
     max-width: 1200px;
@@ -104,7 +215,7 @@
     .image-wrapper img {
         transition: transform 0.3s ease;
         width: 100%;
-        height: 400px; /* Fixed height for consistency */
+        height: 400px;
         object-fit: cover;
     }
 
@@ -170,5 +281,3 @@
         background: linear-gradient(to bottom, transparent, #e55039, transparent);
         opacity: 0.2;
     }
-
-</style >

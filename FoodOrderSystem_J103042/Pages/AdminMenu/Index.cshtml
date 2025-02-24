@@ -1,6 +1,10 @@
 ﻿@page
 @model FoodOrderSystem_J103042.Pages.AdminMenu.IndexModel
 
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
 <h2 class="text-center">Admin Menu Management</h2>
 
 <p>
@@ -19,7 +23,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.FoodItem)
+        @foreach (var item in Model.FoodItems)
         {
             <tr>
                 <td>@item.ID</td>
@@ -27,7 +31,8 @@
                 <td>
                     @if (!string.IsNullOrEmpty(item.ImageUrl))
                     {
-                        <img src="~/images/@item.ImageUrl" alt="@item.Item_Name" width="80" />
+                        <img src="~/images/@item.ImageUrl" asp-append-version="true" alt="@item.Item_Name" width="100" />
+
                     }
                     else
                     {
