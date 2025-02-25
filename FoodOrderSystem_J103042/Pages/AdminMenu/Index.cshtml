@@ -5,49 +5,26 @@
     ViewData["Title"] = "Admin Dashboard";
 }
 
-<h2 class="text-center">Admin Menu Management</h2>
+<h2 class="text-center my-4">🛠️ Admin Menu Management 🛠️</h2>
 
-<p>
-    <a asp-page="Create" class="btn btn-success">Add New Item</a>
+<p class="text-center">
+    <a asp-page="Create" class="btn btn-success">➕ Add New Item</a>
 </p>
 
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Image</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Price</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.FoodItems)
-        {
-            <tr>
-                <td>@item.ID</td>
-
-                <td>
-                    @if (!string.IsNullOrEmpty(item.ImageUrl))
-                    {
-                        <img src="~/images/@item.ImageUrl" asp-append-version="true" alt="@item.Item_Name" width="100" />
-
-                    }
-                    else
-                    {
-                        <span>No Image</span>
-                    }
-                </td>
-
-                <td>@item.Item_Name</td>
-                <td>@item.Item_Desc</td>
-                <td>£@item.Price</td>
-                <td>
-                    <a asp-page="Edit" asp-route-id="@item.ID" class="btn btn-warning">Edit</a>
-                    <a asp-page="Delete" asp-route-id="@item.ID" class="btn btn-danger">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="admin-menu-container">
+    @foreach (var item in Model.FoodItems)
+    {
+        <div class="admin-food-item">
+            <img src="@Url.Content(item.ImageUrl)" alt="@item.Item_Name">
+            <div class="admin-food-details">
+                <h3>@item.Item_Name</h3>
+                <p>@item.Item_Desc</p>
+                <div class="food-price">£@(item.Price.ToString("0.00"))</div>
+                <div class="admin-actions">
+                    <a asp-page="Edit" asp-route-id="@item.ID" class="btn btn-warning">✏️ Edit</a>
+                    <a asp-page="Delete" asp-route-id="@item.ID" class="btn btn-danger">❌ Delete</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

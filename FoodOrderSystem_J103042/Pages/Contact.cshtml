@@ -4,44 +4,56 @@
     ViewData["Title"] = "Contact Us";
 }
 
-<h1>Contact Us</h1>
+<div class="container contact-container">
+    <h1 class="text-center">📞 Contact Us</h1>
 
-<form method="post">
-    <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" class="form-control" id="name" name="Name" required>
-    </div>
-    <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" class="form-control" id="email" name="Email" required>
-    </div>
-    <div class="form-group">
-        <label for="message">Message</label>
-        <textarea class="form-control" id="message" name="Message" rows="5" required></textarea>
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+    <div class="row">
+        <!-- Contact Form -->
+        <div class="col-md-6">
+            <div class="contact-form">
+                <h3>Send Us a Message</h3>
+                <form method="post">
+                    <div class="form-group">
+                        <label for="name">👤 Name</label>
+                        <input type="text" class="form-control" id="name" name="Name" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">📧 Email</label>
+                        <input type="email" class="form-control" id="email" name="Email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">💬 Message</label>
+                        <textarea class="form-control" id="message" name="Message" rows="5" placeholder="Your Message" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-contact">🚀 Submit</button>
+                </form>
+            </div>
+        </div>
 
-<hr />
-
-<h3>Our Location</h3>
-<div id="map" style="height: 400px; width: 100%;"></div>
+        <!-- Google Map -->
+        <div class="col-md-6">
+            <h3 class="text-center">📍 Our Location</h3>
+            <div id="map"></div>
+        </div>
+    </div>
+</div>
 
 @section Scripts {
     <script>
         function initMap() {
-            var location = { lat: 53.1910, lng: -2.8910 }; // Coordinates for Chester
+            var location = { lat: 39.810059, lng: -75.927391 };
             var map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 15,
+                zoom: 15, // Adjust zoom level
                 center: location
             });
+
             var marker = new google.maps.Marker({
                 position: location,
-                map: map
+                map: map,
+                title: "Our Restaurant 📍"
             });
         }
+
     </script>
-    <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap">
-    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap"></script>
 }

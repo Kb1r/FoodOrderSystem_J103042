@@ -1,42 +1,30 @@
 ﻿@page
 @model FoodOrderSystem_J103042.Pages.Menu.IndexModel
-
 @{
     ViewData["Title"] = "Menu";
 }
 
-<h2 class="text-center">Myanmar Specialties</h2>
+<h1 class="text-center">Menu</h1>
 
+<div class="row">
+    @foreach (var item in Model.FoodItems)
+    {
+        <div class="col-md-4">
+            <div class="card">
+                <img src="@item.ImageUrl" class="card-img-top" alt="@item.Item_Name">
+                <div class="card-body">
+                    <h5 class="card-title">@item.Item_Name</h5>
+                    <p class="card-text">@item.Item_Desc</p>
+                    <h6 class="text-success">£@item.Price</h6>
 
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Image</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Price</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.FoodItems) 
-        {
-            <tr>
-                <td>
-                    @if (!string.IsNullOrEmpty(item.ImageUrl))
-                    {
-                    <img src="~/images/@item.ImageUrl" asp-append-version="true" alt="@item.Item_Name" width="100" />
-
-                    }
-                    else
-                    {
-                        <span>No Image</span>
-                    }
-                </td>
-                <td>@item.Item_Name</td>
-                <td>@item.Item_Desc</td>
-                <td>£@item.Price</td>
-               
-            </tr>
-        }
-    </tbody>
-</table>
+                    <form method="post" asp-page-handler="AddToCart">
+                        <input type="hidden" name="itemId" value="@item.ID" />
+                        <input type="hidden" name="name" value="@item.Item_Name" />
+                        <input type="hidden" name="price" value="@item.Price" />
+                        <button type="submit" class="btn btn-primary w-100">🛒 Add to Cart</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    }
+</div>

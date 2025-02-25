@@ -4,32 +4,72 @@
     ViewData["Title"] = "Checkout";
 }
 
-<h1>Checkout</h1>
+<div class="container checkout-container">
+    <h1 class="text-center">🛒 Checkout</h1>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Item</th>
-            <th>Quantity</th>
-            <th>Price</th>
-            <th>Subtotal</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.CartItems)
-        {
-            <tr>
-                <td>@item.Name</td>
-                <td>@item.Quantity</td>
-                <td>@item.Price.ToString("C")</td>
-                <td>@((item.Quantity * item.Price).ToString("C"))</td>
-            </tr>
-        }
-    </tbody>
-</table>
+    @if (Model.CartItems.Count == 0)
+    {
+        <p class="text-center text-muted">Your basket is empty. <a asp-page="/Menu">Go to Menu</a></p>
+    }
+    else
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Subtotal</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.CartItems)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>
+                            <form method="post" asp-page-handler="UpdateQuantity">
+                                <input type="hidden" name="itemId" value="@item.Id" />
+                                <input type="number" name="quantity" value="@item.Quantity" min="1" class="form-control" style="width: 60px; display: inline-block;" />
+                                <button type="submit" class="btn btn-primary btn-sm">Update</button>
+                            </form>
+                        </td>
+                        <td>@item.Price.ToString("C")</td>
+                        <td>@((item.Quantity * item.Price).ToString("C"))</td>
+                        <td>
+                            <form method="post" asp-page-handler="RemoveItem">
+                                <input type="hidden" name="itemId" value="@item.Id" />
+                                <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
 
-<h3>Total: @Model.Total.ToString("C")</h3>
+        <h3 class="text-right">Total: @Model.Total.ToString("C")</h3>
 
-<form method="post">
-    <button type="submit" class="btn btn-success">Purchase</button>
-</form>
+        <form method="post" asp-page-handler="Purchase">
+            <button type="submit" class="btn btn-success btn-lg w-100">Confirm Purchase</button>
+        </form>
+    }
+</div>
+
+@if (Model.PurchaseConfirmed)
+{
+    <div class="alert alert-success text-center mt-3">
+        🎉 Thank you for your purchase! Your order has been successfully placed.
+    </div>
+}
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let purchaseConfirmed = @Model.PurchaseConfirmed.ToString().ToLower();
+            if (purchaseConfirmed) {
+                setTimeout(() => window.location.href = "/", 5000); // Redirect after 5 seconds
+            }
+        });
+    </script>
+}

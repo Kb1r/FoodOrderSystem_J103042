@@ -1,8 +1,10 @@
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using FoodOrderSystem_J103042.Data;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +15,7 @@ builder.Services.AddDbContext<FoodOrderSystem_J103042Context>(options =>
 // Add Identity services
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 {
-    options.SignIn.RequireConfirmedAccount = false;
+    options.SignIn.RequireConfirmedAccount = false; // Disable email confirmation
     options.Password.RequireDigit = true;
     options.Password.RequireLowercase = true;
     options.Password.RequireUppercase = true;
@@ -23,8 +25,14 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
     .AddEntityFrameworkStores<FoodOrderSystem_J103042Context>()
     .AddDefaultTokenProviders();
 
+// Add Fake Email Sender (Prevents IEmailSender errors)
+builder.Services.AddSingleton<IEmailSender, FakeEmailSender>();
+
 // Add Razor Pages
 builder.Services.AddRazorPages();
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession();
+
 
 var app = builder.Build();
 
@@ -43,6 +51,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
+app.UseSession();
+
 
 // Seed roles and users (Admin & Customer)
 using (var scope = app.Services.CreateScope())
@@ -51,18 +61,19 @@ using (var scope = app.Services.CreateScope())
     var context = services.GetRequiredService<FoodOrderSystem_J103042Context>();
     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
     var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+    var logger = services.GetRequiredService<ILogger<Program>>();
 
     try
     {
         // Ensure the database is up-to-date
+        await context.Database.EnsureCreatedAsync();
         await context.Database.MigrateAsync();
 
         // Seed Admin & Customer users
-        await SeedRolesAndUsers(roleManager, userManager);
+        await SeedRolesAndUsers(roleManager, userManager, logger);
     }
     catch (Exception ex)
     {
-        var logger = services.GetRequiredService<ILogger<Program>>();
         logger.LogError(ex, "An error occurred while seeding roles and users.");
     }
 }
@@ -70,92 +81,66 @@ using (var scope = app.Services.CreateScope())
 // Run the app
 app.Run();
 
-// Seed roles and default users (Admin & Customer)
-async Task SeedRolesAndUsers(RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager)
+// ✅ Seed roles and default users (Admin & Customer)
+async Task SeedRolesAndUsers(RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager, ILogger logger)
 {
-    // Define roles
-    var adminRole = "Admin";
-    var customerRole = "Customer";
+    var roles = new List<string> { "Admin", "Customer" };
 
-    // Create roles if they don't exist
-    if (!await roleManager.RoleExistsAsync(adminRole))
+    foreach (var role in roles)
     {
-        await roleManager.CreateAsync(new IdentityRole(adminRole));
-    }
-    if (!await roleManager.RoleExistsAsync(customerRole))
-    {
-        await roleManager.CreateAsync(new IdentityRole(customerRole));
-    }
-
-    // Create Admin User
-    var adminEmail = "admin@example.com";
-    var adminPassword = "Admin@123";
-
-    var adminUser = await userManager.FindByEmailAsync(adminEmail);
-    if (adminUser == null)
-    {
-        adminUser = new IdentityUser
+        if (!await roleManager.RoleExistsAsync(role))
         {
-            UserName = adminEmail,
-            Email = adminEmail,
+            await roleManager.CreateAsync(new IdentityRole(role));
+        }
+    }
+
+    await CreateUser(userManager, logger, "admin@example.com", "Admin@123", "Admin");
+    await CreateUser(userManager, logger, "customer@example.com", "Customer@321!", "Customer");
+}
+
+// ✅ Helper method to create users
+async Task CreateUser(UserManager<IdentityUser> userManager, ILogger logger, string email, string password, string role)
+{
+    var user = await userManager.FindByEmailAsync(email);
+    if (user == null)
+    {
+        user = new IdentityUser
+        {
+            UserName = email,
+            Email = email,
             EmailConfirmed = true // Prevents login issues due to email confirmation
         };
 
-        var createAdminResult = await userManager.CreateAsync(adminUser, adminPassword);
-        if (createAdminResult.Succeeded)
+        var result = await userManager.CreateAsync(user, password);
+        if (result.Succeeded)
         {
-            await userManager.AddToRoleAsync(adminUser, adminRole);
+            await userManager.AddToRoleAsync(user, role);
+            logger.LogInformation($"{role} user '{email}' created successfully.");
         }
         else
         {
-            Console.WriteLine("Failed to create Admin user:");
-            foreach (var error in createAdminResult.Errors)
+            logger.LogError($"Failed to create {role} user '{email}':");
+            foreach (var error in result.Errors)
             {
-                Console.WriteLine($"- {error.Description}");
+                logger.LogError($"- {error.Description}");
             }
         }
     }
     else
     {
-        if (!await userManager.IsInRoleAsync(adminUser, adminRole))
+        if (!await userManager.IsInRoleAsync(user, role))
         {
-            await userManager.AddToRoleAsync(adminUser, adminRole);
+            await userManager.AddToRoleAsync(user, role);
         }
     }
+}
 
-    // Create Customer User
-    var customerEmail = "customer@example.com";
-    var customerPassword = "Customer@321!";
-
-    var customerUser = await userManager.FindByEmailAsync(customerEmail);
-    if (customerUser == null)
+// ✅ Fake Email Sender (Prevents IEmailSender Errors)
+public class FakeEmailSender : IEmailSender
+{
+    public Task SendEmailAsync(string email, string subject, string htmlMessage)
     {
-        customerUser = new IdentityUser
-        {
-            UserName = customerEmail,
-            Email = customerEmail,
-            EmailConfirmed = true
-        };
-
-        var createCustomerResult = await userManager.CreateAsync(customerUser, customerPassword);
-        if (createCustomerResult.Succeeded)
-        {
-            await userManager.AddToRoleAsync(customerUser, customerRole);
-        }
-        else
-        {
-            Console.WriteLine("Failed to create Customer user:");
-            foreach (var error in createCustomerResult.Errors)
-            {
-                Console.WriteLine($"- {error.Description}");
-            }
-        }
-    }
-    else
-    {
-        if (!await userManager.IsInRoleAsync(customerUser, customerRole))
-        {
-            await userManager.AddToRoleAsync(customerUser, customerRole);
-        }
+        Console.WriteLine($"FAKE EMAIL SENT TO: {email} | Subject: {subject}");
+        return Task.CompletedTask;
     }
 }

@@ -20,9 +20,9 @@ namespace FoodOrderSystem_J103042.Models
 
         [DataType(DataType.Currency)]
         [Column(TypeName = "Money")]
-        public decimal? Price { get; set; }
+        public decimal Price { get; set; }
 
-        public string? ImageUrl { get; set; }
+        public string ImageUrl { get; set; }
 
     }
 }
