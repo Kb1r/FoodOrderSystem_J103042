@@ -9,7 +9,7 @@
 
     @if (Model.CartItems.Count == 0)
     {
-        <p class="text-center text-muted">Your basket is empty. <a asp-page="/Menu">Go to Menu</a></p>
+        <p class="text-center text-muted">   Your basket is empty. </p>
     }
     else
     {
@@ -56,20 +56,5 @@
     }
 </div>
 
-@if (Model.PurchaseConfirmed)
-{
-    <div class="alert alert-success text-center mt-3">
-        🎉 Thank you for your purchase! Your order has been successfully placed.
-    </div>
-}
 
-@section Scripts {
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            let purchaseConfirmed = @Model.PurchaseConfirmed.ToString().ToLower();
-            if (purchaseConfirmed) {
-                setTimeout(() => window.location.href = "/", 5000); // Redirect after 5 seconds
-            }
-        });
-    </script>
-}
+

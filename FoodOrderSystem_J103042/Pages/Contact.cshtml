@@ -37,23 +37,21 @@
         </div>
     </div>
 </div>
-
 @section Scripts {
     <script>
         function initMap() {
-            var location = { lat: 39.810059, lng: -75.927391 };
+            var location = { lat: 16.8661, lng: 96.1951 };
             var map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 15, // Adjust zoom level
+                zoom: 15,
                 center: location
             });
 
             var marker = new google.maps.Marker({
                 position: location,
                 map: map,
-                title: "Our Restaurant 📍"
+                title: "Shwe Mandalay Restaurant"
             });
         }
-
     </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap"></script>
+   
 }

@@ -4,21 +4,23 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    background-color: #f4f7fc;
-    color: #333;
+    background-color: #FAF3E0;
+    color: #654321;
 }
 
 /* Button Styling */
 button, .btn {
     transition: all 0.3s ease;
     border-radius: 8px;
+    background: #B22222; /* Deep Red */
+    color: #FFD700;
 }
 
     button:hover, .btn:hover {
         transform: scale(1.05);
     }
 /* ======= Fullscreen Background ======= */
-.auth-page {
+    .auth-page {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -472,5 +474,6 @@ button, .btn {
         padding: 10px;
     }
 }
+
 
 

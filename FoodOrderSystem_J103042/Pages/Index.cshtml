@@ -3,16 +3,15 @@
 
 <div class="container text-center mt-5">
     <div class="jumbotron bg-light">
-        <h1 class="display-4">Welcome to TastyBites</h1>
-        <p class="lead">Delicious food delivered right to your doorstep</p>
+        <h1 class="display-4">Welcome to Shwe Mandalay</h1>
+        <p class="lead">Discover the Authentic Taste of Myanmar</p>
     </div>
 
     <div class="featured-menu my-5">
         <h2 class="mb-4">Featured Myanmar Specialties</h2>
-        <!-- https://insanelygoodrecipes.com/burmese-food/ reference for food items-->
         <div class="row">
             <div class="col-md-4 mb-4">
-                <div class="card h-100">
+                <div class="card h-100 menu-item">
                     <img src="~/images/Mohinga.jpg" class="card-img-top" alt="Mohinga - Myanmar Fish Soup">
                     <div class="card-body">
                         <h5 class="card-title">Mohinga</h5>
@@ -23,7 +22,7 @@
             </div>
 
             <div class="col-md-4 mb-4">
-                <div class="card h-100">
+                <div class="card h-100 menu-item">
                     <img src="~/images/Laphet Thoke.jpg" class="card-img-top" alt="Laphet Thoke - Tea Leaf Salad">
                     <div class="card-body">
                         <h5 class="card-title">Laphet Thoke</h5>
@@ -34,7 +33,7 @@
             </div>
 
             <div class="col-md-4 mb-4">
-                <div class="card h-100">
+                <div class="card h-100 menu-item">
                     <img src="~/images/Ohn No Khao Swe.jpg" class="card-img-top" alt="Ohn No Khao Swè - Coconut Chicken Noodles">
                     <div class="card-body">
                         <h5 class="card-title">Ohn No Khao Swè</h5>
@@ -46,9 +45,18 @@
         </div>
     </div>
 
-    <div class="mb-5">
+    <div class="row align-items-center justify-content-center mb-5">
+        <div class="col-md-4 text-center">
+            <p class="mb-1">Authentic Myanmar Cuisine Since 2025</p>
+            <p class="mb-1">123 Mandalay Road, Yangon</p>
+        </div>
+    </div>
+
+    <div class="text-center my-4">
         <a asp-page="/Menu/Index" class="btn btn-primary btn-lg px-4 view-menu-btn">
             View Full Menu
         </a>
     </div>
+
 </div>
+
